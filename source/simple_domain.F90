@@ -153,7 +153,7 @@ module simple_domain
         !------------------------------------------------------------------
 
         if (my_task == master_task) then
-           if(nmlin <> stdin) then
+           if(nmlin /= stdin) then
               open (nmlin, file=nml_filename, status='old',iostat=nml_error)
            endif
            if (nml_error /= 0) then
@@ -164,7 +164,7 @@ module simple_domain
            do while (nml_error > 0)
            read(nmlin, nml=input_nml,iostat=nml_error)
            end do
-           if (nml_error == 0) close(nmlin)
+           if (nml_error == 0 .and. nmlin /= stdin) close(nmlin)
         endif
         call broadcast_scalar(tilefile,       master_task)
 

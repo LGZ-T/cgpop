@@ -165,7 +165,7 @@
    ns_boundary_type = 'closed'
 
    if (my_task == master_task) then
-      if (nmlin <> stdin) then
+      if (nmlin /= stdin) then
          open (nmlin, file=nml_filename, status='old',iostat=nml_error)
       endif
       if (nml_error /= 0) then
@@ -176,7 +176,7 @@
       do while (nml_error > 0)
          read(nmlin, nml=domain_nml,iostat=nml_error)
       end do
-      if (nml_error == 0) close(nmlin)
+      if (nml_error == 0 .and. nmlin /= stdin) close(nmlin)
    endif
 
    call broadcast_scalar(nml_error, master_task)
