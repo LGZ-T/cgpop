@@ -165,7 +165,9 @@
    ns_boundary_type = 'closed'
 
    if (my_task == master_task) then
-      open (nmlin, file=nml_filename, status='old',iostat=nml_error)
+      if (nmlin <> stdin) then
+         open (nmlin, file=nml_filename, status='old',iostat=nml_error)
+      endif
       if (nml_error /= 0) then
          nml_error = -1
       else

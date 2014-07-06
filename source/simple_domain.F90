@@ -153,16 +153,18 @@ module simple_domain
         !------------------------------------------------------------------
 
         if (my_task == master_task) then
-        open (nmlin, file=nml_filename, status='old',iostat=nml_error)
-        if (nml_error /= 0) then
-        nml_error = -1
-        else
-        nml_error =  1
-        endif
-        do while (nml_error > 0)
-        read(nmlin, nml=input_nml,iostat=nml_error)
-        end do
-        if (nml_error == 0) close(nmlin)
+           if(nmlin <> stdin) then
+              open (nmlin, file=nml_filename, status='old',iostat=nml_error)
+           endif
+           if (nml_error /= 0) then
+              nml_error = -1
+           else
+              nml_error =  1
+           endif
+           do while (nml_error > 0)
+           read(nmlin, nml=input_nml,iostat=nml_error)
+           end do
+           if (nml_error == 0) close(nmlin)
         endif
         call broadcast_scalar(tilefile,       master_task)
 

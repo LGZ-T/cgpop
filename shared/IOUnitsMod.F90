@@ -45,7 +45,8 @@
       stdin  =  5,  &! reserved unit for standard input
       stdout =  6,  &! reserved unit for standard output
       stderr =  6,  &! reserved unit for standard error
-      nmlin  = 10
+      ! nmlin  =  10 ! open the 'pop_in' file
+      nmlin  =  5    ! open the stdin file
 
    ! common formats for writing to stdout, stderr
 
