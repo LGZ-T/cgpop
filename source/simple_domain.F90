@@ -26,7 +26,7 @@ module simple_domain
         ineast, inwest
     use broadcast, only: broadcast_scalar
     use exit_mod, only: sigAbort, exit_pop
-    use IOUnitsMod, only: stdout,nmlin,nml_filename
+    use IOUnitsMod, only: stdout,nmlin,nml_filename,stdin
     use domain_size, only: nx_global,ny_global,max_blocks_tropic, &
         block_size_x,block_size_y
     use reductions, only: global_maxval

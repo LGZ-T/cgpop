@@ -40,7 +40,7 @@
 !   use solver2D, only: pcg_chrongear, init_solvers2D
    use broadcast, only: broadcast_scalar
    use timers, only: get_timer, timer_start, timer_stop
-   use IOUnitsMod, only: stdout, nml_filename, nmlin
+   use IOUnitsMod, only: stdout, nml_filename, nmlin, stdin
    use exit_mod, only: sigAbort, exit_POP
    use linear, only: linearmask, nActive, nTotal,  max_linear, convert2dtolinear, &
 	update_halo, convertlinearto2d, initdof

@@ -37,7 +37,7 @@
    use distribution, only: samedistribution, create_distribution, &
 	create_local_block_ids, destroy_distribution
    use exit_mod, only: sigAbort, exit_pop
-   use IOUnitsMod, only: stdout,nmlin,nml_filename
+   use IOUnitsMod, only: stdout,nmlin,nml_filename,stdin
    use domain_size, only: nx_global,ny_global,max_blocks_tropic
    use reductions, only: global_maxval
    use io_serial, only: write_tiles, read_tiles
