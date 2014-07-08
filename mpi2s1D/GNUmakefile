@@ -36,7 +36,7 @@ LEVEL = 0
 #
 #  By default, you build optimized code.  To override, add "OPTIMIZE=no" 
 #  to the gmake command line.
-OPTIMIZE   = yes
+OPTIMIZE   = no
 #
 #----------------------------------------------------------------------------
 #
@@ -230,7 +230,10 @@ sources:
 
 $(TARGETX): $(OBJS)
 	@echo "  GNUmakefile is making target '$(TARGETX)'"
-	@$(LD) -o $(TARGETX) $(LDFLAGS) $(OBJS) $(LDLIBS) 
+	@llvm-link $(OBJS) -o $@.bc
+	@opt -load ~/usr/local/lib/libLLVMProfiling.so -insert-edge-profiling $@.bc -o $@.edge.bc
+	@llc -filetype=obj $@.edge.bc -o $@.o
+	@$(LD) -o $(TARGETX) $(LDFLAGS) $@.o $(LDLIBS) 
 
 #----------------------------------------------------------------------------
 #

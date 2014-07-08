@@ -21,7 +21,9 @@ Cpp = /usr/bin/cpp -P -traditional-cpp
 AWK = /usr/bin/gawk
 ABI = 
 COMMDIR = mpi
- 
+DRAGONEGG = /home/wzzhang/dragonegg/dragonegg.so
+DRAGONEGG_FLAGS = -S -fplugin-arg-dragonegg-emit-ir -fverbose-asm -fplugin-arg-dragonegg-enable-gcc-optzns
+
 #  Enable MPI library for parallel code, yes/no.
 
 MPI = yes
@@ -66,7 +68,7 @@ endif
 #
 #----------------------------------------------------------------------------
  
-FBASE = $(ABI) $(NETCDFINC) -I$(ObjDepDir) 
+FBASE = $(ABI) $(NETCDFINC) -I$(ObjDepDir) -g -S -fplugin=${DRAGONEGG} $(DRAGONEGG_FLAGS)
 
 ifeq ($(TRAP_FPE),yes)
   FBASE := $(FBASE) 
@@ -75,7 +77,7 @@ endif
 ifeq ($(OPTIMIZE),yes)
   FFLAGS = $(FBASE) -O3 
 else
-  FFLAGS = $(FBASE) -O0 -g
+  FFLAGS = $(FBASE) -O0 -g -fcray-pointer
 endif
  
 #----------------------------------------------------------------------------
@@ -84,9 +86,9 @@ endif
 #
 #----------------------------------------------------------------------------
  
-LDFLAGS = $(ABI) -v -O3
+LDFLAGS = $(ABI) -v -O0
  
-LIBS = $(NETCDFLIB)
+LIBS = $(NETCDFLIB) -L/home/wzzhang/scratch/llvm/build/lib
  
 ifeq ($(MPI),yes)
   LIBS := $(LIBS) 
@@ -97,7 +99,7 @@ ifeq ($(TRAP_FPE),yes)
 endif
  
 #LDLIBS = $(TARGETLIB) $(LIBRARIES) $(LIBS)
-LDLIBS = $(LIBS)
+LDLIBS = $(LIBS) -lprofile_rt
  
 #----------------------------------------------------------------------------
 #
@@ -123,7 +125,7 @@ LDLIBS = $(LIBS)
  
 %.o: %.f90
 	@echo LINUX Compiling with implicit rule $<
-	@$(FC) $(FFLAGS) -c $<
+	@$(FC) $(FFLAGS) -c $< -o $@
 	@if test -f *.mod; then mv -f *.mod $(ObjDepDir); fi
  
 %.o: %.c

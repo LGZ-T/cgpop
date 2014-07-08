@@ -1,5 +1,5 @@
 #!/bin/bash
-#PBS -l walltime=02:00:00
+#PBS -l walltime=00:10:00
 #PBS -l nodes=$nodes:ppn=12
 #PBS -q cse
 
@@ -15,7 +15,7 @@ do
   do
     CGPOP=../../$md/$cgpop.linux.$job
     if [ -e $CGPOP ];then
-    RECORDER_OUTDIR="$cgpop.linux.$pe" LD_PRELOAD="/home/wzzhang/usr/local/lib/librecorder-compress.so" mpirun -np $pe $CGPOP
+    RECORDER_OUTDIR="$cgpop.linux.$pe" mpirun -np $pe $CGPOP
     fi
   done
 done
